@@ -123,6 +123,12 @@ let upstream =
 
 let overrides = {=}
 
-let additions = {=}
+let additions =
+    { aws-core =
+        { dependencies = [ "console", "effect", "psci-support", "spec-discovery" ]
+        , repo = "https://github.com/rinse/purescript-aws-core.git"
+        , version = "master"
+        }
+    }
 
 in  upstream // overrides // additions
