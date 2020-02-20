@@ -13,6 +13,8 @@ You can edit this file as you like.
     , "foreign-generic"
     , "profunctor"
     , "psci-support"
+    , "spec"
+    , "spec-discovery"
     , "transformers"
     ]
 , packages = ./packages.dhall

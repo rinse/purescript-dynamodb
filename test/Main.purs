@@ -1,11 +1,14 @@
 module Test.Main where
 
 import Prelude
+import Effect                     (Effect)
+import Effect.Aff                 (launchAff_)
+import Test.Spec.Discovery        (discover)
+import Test.Spec.Reporter.Console (consoleReporter)
+import Test.Spec.Runner           (runSpec)
 
-import Effect (Effect)
-import Effect.Class.Console (log)
 
 main :: Effect Unit
-main = do
-  log "🍝"
-  log "You should add some tests."
+main = launchAff_ $ do
+  specs <- discover "Network\\.AWS\\.DynamoDB.*Spec"
+  runSpec [consoleReporter] specs

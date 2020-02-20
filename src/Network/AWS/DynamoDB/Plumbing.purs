@@ -27,7 +27,10 @@ foreign import _scan   :: forall r a. EffectFn2 (DocumentClient a) { | r } (Prom
 
 
 get :: forall r a. Decode a => DocumentClient a -> { | r } -> Aff (Maybe a)
-get c = toAffEffectFn2 _get c >=> decode'
+get c r = (_."Item") <$> get' c r
+    where
+    get' :: DocumentClient a -> { | r } -> Aff { "Item" :: Maybe a }
+    get' c = toAffEffectFn2 _get c >=> decode'
 
 delete :: forall r a. DocumentClient a -> { | r } -> Aff Unit
 delete = toAffEffectFn2 _delete
