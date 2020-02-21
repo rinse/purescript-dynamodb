@@ -2,7 +2,7 @@
 
 const AWS = require('../Network.AWS').aws();
 
-exports._documentClient = params => {
+exports.documentClient = params => {
     return () => {
         return new AWS.DynamoDB.DocumentClient(params);
     };

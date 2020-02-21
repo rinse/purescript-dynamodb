@@ -43,35 +43,35 @@ spec :: Spec Unit
 spec = do
     describe "documentClient" $
         it "is bound to `new AWS.DocumentClient()`" $
-            void $ liftEffect $ documentClient (Proxy :: Proxy Person) {}
+            void $ liftEffect $ documentClient {}
 
     describe "runDynamoDB" $
         it "runs `DynamoDB` and get a result" $ do
-            client <- liftEffect $ documentClient (Proxy :: Proxy Person) {}
+            client <- liftEffect $ documentClient {}
             runDynamoDB tablePerson client (pure unit)
 
     describe "DynamoDB" $ do
         describe "getItem" $
             it "is bound to `AWS.DocumentClient.get`" $ do
-                client <- liftEffect $ documentClient (Proxy :: Proxy Person) {}
+                client <- liftEffect $ documentClient {}
                 verifyMissingRegion $
                     void $ runDynamoDB tablePerson client $
                         getItem $ PrimaryKeyPerson { name: "John" }
         describe "putItem" $
             it "is bound to `AWS.DocumentClient.put`" $ do
-                client <- liftEffect $ documentClient (Proxy :: Proxy Person) {}
+                client <- liftEffect $ documentClient {}
                 verifyMissingRegion $
                     void $ runDynamoDB tablePerson client $
                         putItem $ Person { name: "John", age: 20 }
         describe "removeItem" $
             it "is bound to `AWS.DocumentClient.remove`" $ do
-                client <- liftEffect $ documentClient (Proxy :: Proxy Person) {}
+                client <- liftEffect $ documentClient {}
                 verifyMissingRegion $
                     void $ runDynamoDB tablePerson client $
                         removeItem $ PrimaryKeyPerson { name: "John" }
         describe "scanItems" $
             it "is bound to `AWS.DocumentClient.scan`" $ do
-                client <- liftEffect $ documentClient (Proxy :: Proxy Person) {}
+                client <- liftEffect $ documentClient {}
                 verifyMissingRegion $
                     void $ runDynamoDB tablePerson client $
                         scanItems

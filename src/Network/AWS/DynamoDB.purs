@@ -25,11 +25,8 @@ import Network.AWS.DynamoDB.Plumbing (delete, get, put, scan)
 import Network.AWS.DynamoDB.Types    (DocumentClient)
 import Type.Proxy                    (Proxy)
 
-foreign import _documentClient :: forall r a. { | r } -> Effect (DocumentClient a)
-
 -- |Creates a new `DocumentClient` object from the AWS object.
-documentClient :: forall r a. Proxy a -> { | r } -> Effect (DocumentClient a)
-documentClient = const _documentClient
+foreign import documentClient :: forall r a. { | r } -> Effect (DocumentClient a)
 
 newtype DynamoDB (n :: Symbol) (k :: Type) (i :: Type) a =
     DynamoDB (ReaderT (DocumentClient i) Aff a)
