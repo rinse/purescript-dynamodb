@@ -14,7 +14,8 @@ import Data.Maybe (Maybe)
 import Data.Unit  (Unit)
 
 
--- |The `DynamoItem` type class relates TableName and a set of PrimaryKey and Item.
+-- |The `DynamoItem` type class relates a name of table and a set of a key and an item.
+-- |A table name must be unique to keys and items.
 class DynamoItem (n :: Symbol) (k :: Type) (i :: Type) | n -> k, n -> i
 
 -- |Gets an item with a key.

@@ -34,8 +34,8 @@ documentClient = const _documentClient
 newtype DynamoDB (n :: Symbol) (k :: Type) (i :: Type) a =
     DynamoDB (ReaderT (DocumentClient i) Aff a)
 
-runDynamoDB :: forall n k i a. DynamoDB n k i a -> DocumentClient i -> Aff a
-runDynamoDB = runReaderT <<< unwrap
+runDynamoDB :: forall n k i a. SProxy n -> DocumentClient i -> DynamoDB n k i a -> Aff a
+runDynamoDB _ = flip $ runReaderT <<< unwrap
 
 derive         instance newtypeDynamoDB     :: Newtype (DynamoDB n k i a) _
 derive newtype instance functorDynamoDB     :: Functor (DynamoDB n k i)
