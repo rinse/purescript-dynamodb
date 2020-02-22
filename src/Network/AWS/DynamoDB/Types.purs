@@ -2,4 +2,4 @@ module Network.AWS.DynamoDB.Types
     ( DocumentClient
     ) where
 
-foreign import data DocumentClient :: Type -> Type
+foreign import data DocumentClient :: Type

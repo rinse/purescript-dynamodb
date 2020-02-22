@@ -23,15 +23,14 @@ import Network.AWS.DynamoDB.Class    (class DynamoItem, class MonadGetItem,
                                       class MonadScanItems)
 import Network.AWS.DynamoDB.Plumbing (delete, get, put, scan)
 import Network.AWS.DynamoDB.Types    (DocumentClient)
-import Type.Proxy                    (Proxy)
 
 -- |Creates a new `DocumentClient` object from the AWS object.
-foreign import documentClient :: forall r a. { | r } -> Effect (DocumentClient a)
+foreign import documentClient :: forall r. { | r } -> Effect DocumentClient
 
 newtype DynamoDB (n :: Symbol) (k :: Type) (i :: Type) a =
-    DynamoDB (ReaderT (DocumentClient i) Aff a)
+    DynamoDB (ReaderT DocumentClient Aff a)
 
-runDynamoDB :: forall n k i a. SProxy n -> DocumentClient i -> DynamoDB n k i a -> Aff a
+runDynamoDB :: forall n k i a. SProxy n -> DocumentClient -> DynamoDB n k i a -> Aff a
 runDynamoDB _ = flip $ runReaderT <<< unwrap
 
 derive         instance newtypeDynamoDB     :: Newtype (DynamoDB n k i a) _
@@ -47,8 +46,8 @@ derive newtype instance monoidDynamoDB      :: Monoid a => Monoid (DynamoDB n k 
 derive newtype instance monadEffectDynamoDB :: MonadEffect (DynamoDB n k i)
 derive newtype instance monadThrowDynamoDB  :: MonadThrow Error (DynamoDB n k i)
 derive newtype instance monadErrorDynamoDB  :: MonadError Error (DynamoDB n k i)
-derive newtype instance monadAskDynamoDB    :: MonadAsk (DocumentClient i) (DynamoDB n k i)
-derive newtype instance monadReaderDynamoDB :: MonadReader (DocumentClient i) (DynamoDB n k i)
+derive newtype instance monadAskDynamoDB    :: MonadAsk DocumentClient (DynamoDB n k i)
+derive newtype instance monadReaderDynamoDB :: MonadReader DocumentClient (DynamoDB n k i)
 derive newtype instance monadRecDynamoDB    :: MonadRec (DynamoDB n k i)
 
 
