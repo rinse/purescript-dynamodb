@@ -1,9 +1,11 @@
 module Network.AWS.DynamoDB.Class
     ( class DynamoItem
+    , class DynamoKeyItem
     , class MonadGetItem
     , class MonadPutItem
     , class MonadRemoveItem
     , class MonadScanItems
+    , getKey
     , getItem
     , putItem
     , removeItem
@@ -17,6 +19,10 @@ import Data.Unit  (Unit)
 -- |The `DynamoItem` type class relates a name of table and a set of a key and an item.
 -- |A table name must be unique to keys and items.
 class DynamoItem (n :: Symbol) (k :: Type) (i :: Type) | n -> k, n -> i
+
+-- |The `DynamoKeyItem` type class relates a key and an item.
+class DynamoKeyItem k i | i -> k where
+    getKey :: i -> k
 
 -- |Gets an item with a key.
 class MonadGetItem k i m | m -> k, m -> i where

@@ -11,6 +11,8 @@ You can edit this file as you like.
     , "effect"
     , "foreign"
     , "foreign-generic"
+    , "identity"
+    , "ordered-collections"
     , "profunctor"
     , "psci-support"
     , "spec"
